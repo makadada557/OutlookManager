@@ -30,7 +30,9 @@ from config import verify_admin_password, get_config_info
 # 配置常量
 # ============================================================================
 
-ACCOUNTS_FILE = "accounts.json"
+# 优先使用环境变量指定的路径，否则使用 data/accounts.json
+# 这样在 Docker 和本地开发中都能正常工作
+ACCOUNTS_FILE = os.getenv("ACCOUNTS_FILE", "data/accounts.json")
 TOKEN_URL = "https://login.microsoftonline.com/consumers/oauth2/v2.0/token"
 IMAP_SERVER = "outlook.live.com"
 IMAP_PORT = 993
