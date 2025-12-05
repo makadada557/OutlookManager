@@ -8,23 +8,14 @@ WORKERS=${WORKERS:-1}
 # 创建必要的目录
 mkdir -p /app/data
 
-# # 如果accounts.json不存在，创建空的
-# if [ ! -f "/app/accounts.json" ]; then
-#     echo "{}" > /app/accounts.json
-# fi
-# 如果文件不存在，创建空的
-if [ ! -f "/app/accounts.json" ]; then
-  echo "{}" > /app/accounts.json
-else
-  # 确保权限正常（可读可写）
-  chmod 666 /app/accounts.json 2>/dev/null || true
-
-  # 如果内容不是合法 JSON，可以选择自动重置
-  # 轻量一点的做法：只在文件为空时写入 {}
-  if [ ! -s /app/accounts.json ]; then
-    echo "{}" > /app/accounts.json
-  fi
+# 如果accounts.json不存在，在data目录中创建空的
+if [ ! -f "/app/data/accounts.json" ]; then
+    echo "{}" > /app/data/accounts.json
+    chmod 666 /app/data/accounts.json
 fi
+
+# 确保data目录有正确的权限
+chmod 755 /app/data
 
 # 不再需要更改文件所有权，因为我们使用root用户运行容器
 
